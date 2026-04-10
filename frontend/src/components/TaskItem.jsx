@@ -1,70 +1,4 @@
 
-// import { FaTrash, FaEdit } from "react-icons/fa";
-// import { useState } from "react";
-
-// const TaskItem = ({ task, toggleTask, deleteTask, editTask }) => {
-//   const [isEditing, setIsEditing] = useState(false);
-//   const [newTitle, setNewTitle] = useState(task.title);
-
-//   const handleEdit = () => {
-//     if (!newTitle.trim()) {
-//       setIsEditing(false);
-//       return;
-//     }
-
-//     editTask(task._id, newTitle.trim());
-//     setIsEditing(false);
-//   };
-
-//   return (
-//     <div className="task">
-//       {isEditing ? (
-//         <>
-//           <input
-//             value={newTitle}
-//             onChange={(e) => setNewTitle(e.target.value)}
-//           />
-//           <button onClick={handleEdit}>Save</button>
-//         </>
-//       ) : (
-//         <>
-//           <span
-//             onClick={() => !isEditing && toggleTask(task._id)}
-//             style={{
-//               textDecoration: task.completed ? "line-through" : "none",
-//               cursor: "pointer"
-//             }}
-//           >
-//             {task.title}
-//           </span>
-
-//           <div>
-//             <button
-//               onClick={(e) => {
-//                 e.stopPropagation();
-//                 setIsEditing(true);
-//               }}
-//             >
-//               <FaEdit />
-//             </button>
-
-//             <button
-//               onClick={(e) => {
-//                 e.stopPropagation();
-//                 deleteTask(task._id);
-//               }}
-//             >
-//               <FaTrash />
-//             </button>
-//           </div>
-//         </>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default TaskItem;
-
 
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { useState } from "react";
@@ -74,7 +8,7 @@ const TaskItem = ({ task, toggleTask, deleteTask, editTask }) => {
   const [newTitle, setNewTitle] = useState(task.title);
 
   const handleEdit = (e) => {
-    e.stopPropagation(); // 🔥 IMPORTANT
+    e.stopPropagation(); //  IMPORTANT
 
     if (!newTitle.trim()) {
       setIsEditing(false);
@@ -91,7 +25,7 @@ const TaskItem = ({ task, toggleTask, deleteTask, editTask }) => {
         <>
           <input
             value={newTitle}
-            onClick={(e) => e.stopPropagation()} // 🔥
+            onClick={(e) => e.stopPropagation()} // 
             onChange={(e) => setNewTitle(e.target.value)}
           />
 
@@ -100,7 +34,7 @@ const TaskItem = ({ task, toggleTask, deleteTask, editTask }) => {
       ) : (
         <>
           <span
-            onClick={() => toggleTask(task._id)} // ✅ simple rakho
+            onClick={() => toggleTask(task._id)} //  
             style={{
               textDecoration: task.completed ? "line-through" : "none",
               cursor: "pointer"
@@ -112,7 +46,7 @@ const TaskItem = ({ task, toggleTask, deleteTask, editTask }) => {
           <div>
             <button
               onClick={(e) => {
-                e.stopPropagation(); // 🔥
+                e.stopPropagation(); 
                 setIsEditing(true);
               }}
             >
@@ -121,7 +55,7 @@ const TaskItem = ({ task, toggleTask, deleteTask, editTask }) => {
 
             <button
               onClick={(e) => {
-                e.stopPropagation(); // 🔥
+                e.stopPropagation(); 
                 deleteTask(task._id);
               }}
             >
