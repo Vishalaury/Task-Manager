@@ -1,95 +1,11 @@
 
-// // import { useEffect, useState } from "react";
-// // import API from "./services/api";
-// // import TaskForm from "./components/TaskForm";
-// // import TaskList from "./components/TaskList";
-// // import "./App.css";
-
-// // function App() {
-// //   const [tasks, setTasks] = useState([]);
-// //   const [error, setError] = useState("");
-
-// //   const fetchTasks = async () => {
-// //     try {
-// //       const res = await API.get("/");
-// //       setTasks(res.data);
-// //     } catch {
-// //       setError("Failed to load tasks");
-// //     }
-// //   };
-
-// //   useEffect(() => {
-// //     fetchTasks();
-// //   }, []);
-
-// //   const addTask = async (title) => {
-// //     try {
-// //       const res = await API.post("/", { title });
-// //       setTasks(prev => [res.data, ...prev]);
-// //     } catch {
-// //       setError("Error adding task");
-// //     }
-// //   };
-
-// //   const toggleTask = async (id) => {
-// //     try {
-// //       const res = await API.patch(`/${id}`);
-// //       setTasks(prev =>
-// //         prev.map(t => (t._id === id ? res.data : t))
-// //       );
-// //     } catch {
-// //       setError("Error updating task");
-// //     }
-// //   };
-
-// //   const deleteTask = async (id) => {
-// //     try {
-// //       await API.delete(`/${id}`);
-// //       setTasks(prev =>
-// //         prev.filter(t => t._id !== id)
-// //       );
-// //     } catch {
-// //       setError("Error deleting task");
-// //     }
-// //   };
-
-// //   const editTask = async (id, title) => {
-// //     try {
-// //       const res = await API.patch(`/${id}`, { title });
-// //       setTasks(prev =>
-// //         prev.map(t => (t._id === id ? res.data : t))
-// //       );
-// //     } catch {
-// //       setError("Error updating task");
-// //     }
-// //   };
-
-// //   return (
-// //     <div className="container">
-// //       <h1>Task Manager</h1>
-
-// //       <TaskForm addTask={addTask} />
-
-// //       {error && <p className="error">{error}</p>}
-
-// //       <TaskList
-// //         tasks={tasks}
-// //         toggleTask={toggleTask}
-// //         deleteTask={deleteTask}
-// //         editTask={editTask}
-// //       />
-// //     </div>
-// //   );
-// // }
-
-// // export default App;
-
 
 
 // import { useEffect, useState } from "react";
 // import API from "./services/api";
 
 // function App() {
+//      return <h1>Working Perfect</h1>;
 //   const [tasks, setTasks] = useState([]);
 //   const [title, setTitle] = useState("");
 //   const [loading, setLoading] = useState(false);
@@ -98,9 +14,10 @@
 //     try {
 //       setLoading(true);
 //       const res = await API.get("/tasks");
-//       setTasks(res.data);
+//       setTasks(res.data || []); // safe
 //     } catch (err) {
-//       alert("Error fetching tasks");
+//       console.log(err);
+//       setTasks([]); // fallback
 //     } finally {
 //       setLoading(false);
 //     }
@@ -123,16 +40,30 @@
 //   };
 
 //   const toggleTask = async (id) => {
-//     await API.patch(`/tasks/${id}`);
-//     fetchTasks();
+//     try {
+//       await API.patch(`/tasks/${id}`);
+//       fetchTasks();
+//     } catch {
+//       alert("Error updating task");
+//     }
 //   };
 
 //   const deleteTask = async (id) => {
-//     await API.delete(`/tasks/${id}`);
-//     fetchTasks();
+//     try {
+//       await API.delete(`/tasks/${id}`);
+//       fetchTasks();
+//     } catch {
+//       alert("Error deleting task");
+//     }
 //   };
 
+//   //  loading UI (IMPORTANT)
+//   if (loading) {
+//     return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+//   }
+
 //   return (
+     
 //     <div style={{ maxWidth: "500px", margin: "auto", padding: "20px" }}>
 //       <h1>Task Manager</h1>
 
@@ -143,8 +74,9 @@
 //       />
 //       <button onClick={addTask}>Add</button>
 
-//       {loading ? (
-//         <p>Loading...</p>
+//       {/*  empty state */}
+//       {tasks.length === 0 ? (
+//         <p>No tasks found</p>
 //       ) : (
 //         <ul>
 //           {tasks.map((task) => (
@@ -174,11 +106,11 @@
 
 
 
+
 import { useEffect, useState } from "react";
 import API from "./services/api";
 
 function App() {
-     return <h1>Working Perfect</h1>;
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
@@ -187,10 +119,10 @@ function App() {
     try {
       setLoading(true);
       const res = await API.get("/tasks");
-      setTasks(res.data || []); // safe
+      setTasks(res.data || []);
     } catch (err) {
       console.log(err);
-      setTasks([]); // fallback
+      setTasks([]);
     } finally {
       setLoading(false);
     }
@@ -230,13 +162,12 @@ function App() {
     }
   };
 
-  //  loading UI (IMPORTANT)
+  // ✅ loading UI
   if (loading) {
     return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
   }
 
   return (
-     
     <div style={{ maxWidth: "500px", margin: "auto", padding: "20px" }}>
       <h1>Task Manager</h1>
 
@@ -247,7 +178,6 @@ function App() {
       />
       <button onClick={addTask}>Add</button>
 
-      {/*  empty state */}
       {tasks.length === 0 ? (
         <p>No tasks found</p>
       ) : (
